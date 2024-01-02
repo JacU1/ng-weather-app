@@ -20,8 +20,11 @@
     "@angular/router": "^17.0.8",
     "@angular/service-worker": "^17.0.8",
     "flowbite": "^2.2.1",
+    "mapbox-gl": "^3.0.1",
+    "ol": "^8.2.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "tw-elements": "^1.1.0",
     "zone.js": "~0.14.2"
   },
   "devDependencies": {
