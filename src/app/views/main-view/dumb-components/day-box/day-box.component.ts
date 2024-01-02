@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-day-box',
   standalone: true,
   imports: [],
   templateUrl: './day-box.component.html',
-  styleUrl: './day-box.component.scss'
+  styleUrl: './day-box.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DayBoxComponent {
 
