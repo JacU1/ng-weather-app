@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { WeatherDataService } from './services/weather-data.service';
 
 
 
@@ -10,6 +11,7 @@ import { FooterComponent } from './components/footer/footer.component';
   imports: [
     CommonModule
   ],
-  exports: [NavbarComponent, FooterComponent]
+  exports: [NavbarComponent, FooterComponent],
+  providers: [WeatherDataService]
 })
 export class SharedModule { }
