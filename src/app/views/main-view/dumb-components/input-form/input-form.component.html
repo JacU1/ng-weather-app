@@ -1,4 +1,4 @@
-<div [formGroup]="inputForm" class="form flex px-6 py-4 justify-between flex-col lg:flex-row" style="padding-bottom: 1.5rem;">
+<div [formGroup]="inputForm" class="form flex px-6 py-4 justify-between flex-col lg:flex-row" style="padding-bottom: 2.6rem;">
   
     <div class="flex flex-col mr-3 mt-3 mb-2">
         <label for="location" class="block text-sm font-medium leading-6 text-gray-900">Location</label>
@@ -11,7 +11,7 @@
 
     <div class="flex flex-col mr-3 mt-3 mb-2">
         <label for="timepicker" class="block text-sm font-medium leading-6 text-gray-900">Time select</label>
-        <div class="relative mt-2" data-te-timepicker-init data-te-input-wrapper-init>
+        <div class="relative mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600" data-te-timepicker-init data-te-input-wrapper-init>
             <input
               type="text"
               [formControlName]="'time'"
@@ -23,7 +23,7 @@
     <div class="flex flex-col mr-3 mt-3 mb-2">
         <label for="datepicker" class="block text-sm font-medium leading-6 text-gray-900">Date select</label>
         <div
-        class="relative mt-2"
+        class="relative mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
         data-te-datepicker-init
         data-te-input-wrapper-init>
         <input
