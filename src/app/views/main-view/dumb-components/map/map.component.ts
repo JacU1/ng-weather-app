@@ -38,7 +38,7 @@ export class MapComponent implements OnInit {
 
     const oldmap = document.getElementById('ol-map');
 
-    var newmap = document.createElement('div');
+    const newmap = document.createElement('div');
     newmap.setAttribute('id','map');
     newmap.setAttribute('style','height: 500px; width: 40%;')
 
