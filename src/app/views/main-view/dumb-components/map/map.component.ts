@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { View } from 'ol';
 import Map from 'ol/Map';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
+import { Observable } from 'rxjs';
+import { LocationService } from 'src/app/shared/services/location.service';
 
 @Component({
   selector: 'app-map',
@@ -13,7 +15,9 @@ import OSM from 'ol/source/OSM';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapComponent implements OnInit {
-  map!: Map;
+  @Input() currentLocation!: GeolocationPosition;
+  
+  public map!: Map;
 
   ngOnInit(): void {
     this.initmap();
@@ -22,7 +26,8 @@ export class MapComponent implements OnInit {
   initmap(): void {
     this.map = new Map({
       view: new View({
-        center: [0, 0],
+        center: [this.currentLocation.coords.latitude, 
+                 this.currentLocation.coords.longitude],
         zoom: 1,
       }),
       layers: [

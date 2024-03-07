@@ -5,6 +5,8 @@ import { MapComponent } from './dumb-components/map/map.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { LocationService } from 'src/app/shared/services/location.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-main-view',
@@ -15,8 +17,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 })
 export class MainViewComponent {
   inputForm: FormGroup;
+  currentLocation$!: Observable<GeolocationPosition>;
 
-  constructor(private readonly _fb: FormBuilder){
+  constructor(private readonly _fb: FormBuilder,private readonly _locationService: LocationService){
     
     this.inputForm = this._fb.group({
       location: new FormControl<string>(''),
@@ -25,6 +28,8 @@ export class MainViewComponent {
     });
   
     this.inputForm.valueChanges.subscribe(res => console.log(this.inputForm));
+
+    this.currentLocation$ = this._locationService.currentPosition$.asObservable();
   }
 
 }
