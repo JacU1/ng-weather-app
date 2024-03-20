@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { View } from 'ol';
 import Map from 'ol/Map';
+import { Point } from 'ol/geom';
 import TileLayer from 'ol/layer/Tile';
+import { useGeographic } from 'ol/proj';
 import OSM from 'ol/source/OSM';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { LocationService } from 'src/app/shared/services/location.service';
 
 @Component({
@@ -15,20 +17,66 @@ import { LocationService } from 'src/app/shared/services/location.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapComponent implements OnInit {
-  @Input() currentLocation!: GeolocationPosition;
-  
+  public currentLocation$: Subject<GeolocationPosition> = new Subject<GeolocationPosition>();
+  lat:any;
+  lng:any;
   public map!: Map;
 
+  constructor(private readonly cdr_: ChangeDetectorRef){}
+
   ngOnInit(): void {
-    this.initmap();
+    this.getCurrentLocation();
+    this.currentLocation$.subscribe(res => {
+      console.log(res);
+      this.initmap(res.coords.latitude, res.coords.longitude);
+    })
   }
 
-  initmap(): void {
+  getCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((values) => {
+        this.lat = values?.coords?.latitude;
+        this.lng = values?.coords?.longitude;
+        this.currentLocation$.next(values);
+      });
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+    console.log(this.lat);
+  }
+
+  // showPosition(position: GeolocationPosition): void {
+  // }
+
+  showError(error: any) {
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        alert('User denied the request for Geolocation.');
+        break;
+      case error.POSITION_UNAVAILABLE:
+        alert('Location information is unavailable.');
+        break;
+      case error.TIMEOUT:
+        alert('The request to get user location timed out.');
+        break;
+      case error.UNKNOWN_ERROR:
+        alert('An unknown error occurred.');
+        break;
+    }
+  }
+
+  initmap(lat: number, lon: number): void {
+    console.log(this.lat);
+
+    useGeographic();
+
+    const place = [lon, lat];
+    const point = new Point(place);
+
     this.map = new Map({
       view: new View({
-        center: [this.currentLocation.coords.latitude, 
-                 this.currentLocation.coords.longitude],
-        zoom: 1,
+        center: place,
+        zoom: 9,
       }),
       layers: [
         new TileLayer({

@@ -1,26 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable()
 export class LocationService {
-  public currentPosition$: Subject<GeolocationPosition> = new Subject<GeolocationPosition>;
+  public currentPosition$!: Subject<GeolocationPosition>;
+  public position!: any;
+
+  constructor() {
+    this.currentPosition$ = new Subject<GeolocationPosition>();
+  }
 
   getCurrentLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        this.showPosition,
-        this.showError
+        this.showPosition.bind(this),
+        this.showError.bind(this)
       );
     } else {
       alert('Geolocation is not supported by this browser.');
     }
   }
 
-  showPosition(res: GeolocationPosition): GeolocationPosition {
-    console.log(res);
-    console.log(this.currentPosition$);
-    this.currentPosition$.next(res);
-    return res;
+  showPosition(position: GeolocationPosition): void {
+    console.log(position);
+    this.position = position;
+    this.currentPosition$.next(position);
   }
 
   showError(error: any) {

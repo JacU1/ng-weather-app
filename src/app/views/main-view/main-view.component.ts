@@ -16,10 +16,10 @@ import { Observable } from 'rxjs';
   styleUrl: './main-view.component.scss'
 })
 export class MainViewComponent {
-  inputForm: FormGroup;
-  currentLocation$!: Observable<GeolocationPosition>;
+  public inputForm: FormGroup;
+  public currentLocation$!: Observable<GeolocationPosition>;
 
-  constructor(private readonly _fb: FormBuilder,private readonly _locationService: LocationService){
+  constructor(private readonly _fb: FormBuilder, private readonly _locationService: LocationService){
     
     this.inputForm = this._fb.group({
       location: new FormControl<string>(''),
@@ -28,8 +28,10 @@ export class MainViewComponent {
     });
   
     this.inputForm.valueChanges.subscribe(res => console.log(this.inputForm));
-
-    this.currentLocation$ = this._locationService.currentPosition$.asObservable();
+    console.log('main view');
+    this._locationService.currentPosition$.subscribe(res => {
+      console.log(res);
+    });
   }
 
 }
