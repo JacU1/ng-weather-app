@@ -10,6 +10,5 @@ export class AppComponent {
   title = 'ng-weather-app';
 
   constructor(private readonly locationService: LocationService) {
-    this.locationService.getCurrentLocation();
   }
 }

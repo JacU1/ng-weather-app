@@ -22,8 +22,6 @@
 </div>
 
 <div class="shadow-lg rounded-lg m-4 bg-white">
-  <ng-container *ngIf="(currentLocation$ | async) as currentLocation">
-    <app-map [currentLocation]="currentLocation"></app-map>
-  </ng-container>
+    <app-map></app-map>
   <app-input-form [inputForm]="inputForm"></app-input-form>
 </div>
