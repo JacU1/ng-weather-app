@@ -1,0 +1,20 @@
+
+::ng-deep .ng-dropdown-panel,  .ng-select-bottom {
+    color: black;
+    position: relative !important;
+}
+
+::ng-deep .timepicker-wrapper {
+    button {
+        color: rgb(229 229 229 / var(--tw-text-opacity));
+    }
+    button:hover {
+        color: rgb(143 174 224 / var(--tw-text-opacity));
+    }
+}
+
+::ng-deep .ng-placeholder {
+   color: rgb(229 229 229 / var(--tw-text-opacity));
+}
+
+::ng-deep .ng-select .ng-has-value .ng-placeholder { display: none; }

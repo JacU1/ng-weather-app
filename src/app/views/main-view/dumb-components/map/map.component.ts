@@ -6,7 +6,6 @@ import TileLayer from 'ol/layer/Tile';
 import { useGeographic } from 'ol/proj';
 import OSM from 'ol/source/OSM';
 import { Observable, Subject } from 'rxjs';
-import { LocationService } from 'src/app/shared/services/location.service';
 
 @Component({
   selector: 'app-map',
@@ -18,16 +17,13 @@ import { LocationService } from 'src/app/shared/services/location.service';
 })
 export class MapComponent implements OnInit {
   public currentLocation$: Subject<GeolocationPosition> = new Subject<GeolocationPosition>();
-  lat:any;
-  lng:any;
   public map!: Map;
 
-  constructor(private readonly cdr_: ChangeDetectorRef){}
+  constructor(){}
 
   ngOnInit(): void {
     this.getCurrentLocation();
     this.currentLocation$.subscribe(res => {
-      console.log(res);
       this.initmap(res.coords.latitude, res.coords.longitude);
     })
   }
@@ -35,18 +31,12 @@ export class MapComponent implements OnInit {
   getCurrentLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((values) => {
-        this.lat = values?.coords?.latitude;
-        this.lng = values?.coords?.longitude;
         this.currentLocation$.next(values);
-      });
+      },this.showError);
     } else {
       alert('Geolocation is not supported by this browser.');
     }
-    console.log(this.lat);
   }
-
-  // showPosition(position: GeolocationPosition): void {
-  // }
 
   showError(error: any) {
     switch (error.code) {
@@ -66,12 +56,8 @@ export class MapComponent implements OnInit {
   }
 
   initmap(lat: number, lon: number): void {
-    console.log(this.lat);
-
     useGeographic();
-
     const place = [lon, lat];
-    const point = new Point(place);
 
     this.map = new Map({
       view: new View({
@@ -90,7 +76,6 @@ export class MapComponent implements OnInit {
   mapchangehandler(lon: string, lat: string) : void {
 
     const oldmap = document.getElementById('ol-map');
-
     const newmap = document.createElement('div');
     newmap.setAttribute('id','map');
     newmap.setAttribute('style','height: 500px; width: 40%;')

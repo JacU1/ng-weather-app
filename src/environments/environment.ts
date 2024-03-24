@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   baseApiUrl: '',
-  weatherApiUrl: ''
+  weatherApiUrl: '',
+  weatherApiKey: '',
+  autocompleteAPIKey: '',
+  autocompleteAPIUrl: '',
 };
 
 /*

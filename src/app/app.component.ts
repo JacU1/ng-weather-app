@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LocationService } from './shared/services/location.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +8,6 @@ import { LocationService } from './shared/services/location.service';
 export class AppComponent {
   title = 'ng-weather-app';
 
-  constructor(private readonly locationService: LocationService) {
+  constructor() {
   }
 }
