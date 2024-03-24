@@ -1,34 +1,68 @@
-<div [formGroup]="inputForm" class="form flex p-2 justify-between flex-col lg:flex-row">
-  
-    <div class="flex flex-col m-1">
-        <label for="location" class="block text-sm font-medium leading-6 text-gray-900">Location</label>
-          <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-            <input [formControlName]="'location'" type="text" name="location" id="location" autocomplete="location" placeholder="eg. London" class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear peer-focus:text-primary motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary">
-          </div>
+<div class="form flex p-2 justify-between flex-col lg:flex-row">
+  <div class="flex flex-col m-1">
+    <label
+      for="location"
+      class="block text-sm font-medium leading-6 text-gray-900"
+      >Location</label
+    >
+    <div
+      class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+    >
+      <ng-select
+        [(ngModel)]="selectedLocation"
+        placeholder="Eg. London"
+        [virtualScroll]="true"
+        (search)="onSelectSearch($event)"
+        (scrollToEnd)="onScrollSearch($event)"
+        class="peer block text-neutral-200 min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear peer-focus:text-primary motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary"
+      >
+        <ng-option *ngFor="let location of locations" [value]="location.id">{{
+          location.name
+        }}</ng-option>
+      </ng-select>
     </div>
+  </div>
 
+  <ng-container [formGroup]="inputForm">
     <div class="flex flex-col m-1">
-        <label for="timepicker" class="block text-sm font-medium leading-6 text-gray-900">Time select</label>
-        <div class="relative flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600" data-te-timepicker-init data-te-input-wrapper-init>
-            <input
-              type="text"
-              [formControlName]="'time'"
-              class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-              name="timepicker" id="timepicker" />
-          </div>
-    </div>
-
-    <div class="flex flex-col m-1">
-        <label for="datepicker" class="block text-sm font-medium leading-6 text-gray-900">Date select</label>
-        <div
-        class="relative mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
-        data-te-datepicker-init
-        data-te-input-wrapper-init>
+      <label
+        for="timepicker"
+        class="block text-sm font-medium leading-6 text-gray-900"
+        >Time select</label
+      >
+      <div
+        class="timepicker-wrapper relative flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+        data-te-timepicker-init
+        data-te-input-wrapper-init
+      >
         <input
-              type="text"
-              [formControlName]="'date'"
-              class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-              name="datepicker" id="datepicker" />
+          type="text"
+          [formControlName]="'time'"
+          class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+          name="timepicker"
+          id="timepicker"
+        />
       </div>
     </div>
+    <div class="flex flex-col m-1">
+      <label
+        for="datepicker"
+        class="block text-sm font-medium leading-6 text-gray-900"
+        >Date select</label
+      >
+      <div
+        class="relative mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+        data-te-datepicker-init
+        data-te-input-wrapper-init
+      >
+        <input
+          type="text"
+          [formControlName]="'date'"
+          class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+          name="datepicker"
+          id="datepicker"
+        />
+      </div>
+    </div>
+  </ng-container>
 </div>

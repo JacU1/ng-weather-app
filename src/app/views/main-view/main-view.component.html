@@ -1,27 +1,30 @@
-<div class="flex flex-col text-white items-center">
-  <h1>2 C</h1>
-  <h3>location</h3>
-  <span>Description</span>
-  <span>od 2 do 7</span>
-</div>
-
-<div class="flex flex-col shadow-lg rounded-lg m-4 bg-white">
-  <div class="m-1">
-    <span>long description</span>
+<div class="container flex flex-col">
+  <div class="flex flex-col text-white items-center">
+    <h1>2 C</h1>
+    <h3>location</h3>
+    <span>Description</span>
+    <span>od 2 do 7</span>
   </div>
-  <div class="flex m-1">
-    <app-day-box></app-day-box>
+  
+  <div class="flex flex-col shadow-lg rounded-lg m-4 bg-white">
+    <div class="m-1">
+      <span>long description</span>
+    </div>
+    <div class="flex m-1">
+      <app-day-box></app-day-box>
+    </div>
   </div>
-</div>
-
-<div class="flex flex-col shadow-lg rounded-lg m-4 bg-white">
-  <h3>Prognoza na 100 dni</h3>
-  <div *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-    <p>test</p>
+  
+  <div class="flex flex-col shadow-lg rounded-lg m-4 bg-white">
+    <h3>Prognoza na 100 dni</h3>
+    <div *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+      <p>test</p>
+    </div>
   </div>
-</div>
-
-<div class="shadow-lg rounded-lg m-4 bg-white">
-    <app-map></app-map>
-  <app-input-form [inputForm]="inputForm"></app-input-form>
+  
+  <div class="shadow-lg rounded-lg m-4 bg-white">
+      <app-map></app-map>
+    <app-input-form [inputForm]="inputForm"></app-input-form>
+  </div>
+  
 </div>
