@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DayBoxComponent } from './dumb-components/day-box/day-box.component';
-import { InputFormComponent } from './dumb-components/input-form/input-form.component';
+import { InputFormComponent } from './smart-components/input-form/input-form.component';
 import { MapComponent } from './dumb-components/map/map.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
