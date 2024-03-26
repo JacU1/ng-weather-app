@@ -9,7 +9,7 @@ export class WeatherDataService {
 
   constructor(private readonly _http: HttpClient) { }
 
-  public getWeather(location: string): Observable<any> {
+  public getCurrentWeather(location: string): Observable<any> {
     const url = `${environment.weatherApiUrl}/weather?q='${location}'&units=metric&appid=${environment.weatherApiKey}`
     return this._http.get<any>(url);
   }
