@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Observable } from 'rxjs';
+import { LocationProperties } from 'src/app/shared/models/location';
 
 @Component({
   selector: 'app-main-view',
@@ -17,6 +18,7 @@ import { Observable } from 'rxjs';
 export class MainViewComponent {
   public inputForm: FormGroup;
   public currentLocation$!: Observable<GeolocationPosition>;
+  public newMapLocation!: LocationProperties | null;
 
   constructor(private readonly _fb: FormBuilder){
     
@@ -24,9 +26,9 @@ export class MainViewComponent {
       time: new FormControl(''),
       date: new FormControl('')
     });
-  
-    this.inputForm.valueChanges.subscribe(res => console.log(this.inputForm));
-    console.log('main view');
   }
 
+  onSelectedLocation(event: LocationProperties | null): void {
+    this.newMapLocation = event;
+  }
 }

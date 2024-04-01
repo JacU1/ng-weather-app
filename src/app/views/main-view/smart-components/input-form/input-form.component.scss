@@ -18,3 +18,19 @@
 }
 
 ::ng-deep .ng-select .ng-has-value .ng-placeholder { display: none; }
+
+::ng-deep .ng-value {width: 93%; margin-top: 2px;}
+
+.actions {
+    opacity: 1;
+    animation: fadeInAnimation 1s;
+  }
+  
+  @keyframes fadeInAnimation {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }

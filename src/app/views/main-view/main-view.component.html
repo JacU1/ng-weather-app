@@ -23,8 +23,9 @@
   </div>
   
   <div class="shadow-lg rounded-lg m-4 bg-white">
-      <app-map></app-map>
-    <app-input-form [inputForm]="inputForm"></app-input-form>
+      <app-map [location]="newMapLocation"></app-map>
+    <app-input-form [inputForm]="inputForm" 
+      (onShowLocation)="onSelectedLocation($event)"></app-input-form>
   </div>
   
 </div>

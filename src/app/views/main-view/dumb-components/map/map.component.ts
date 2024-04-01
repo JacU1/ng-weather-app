@@ -6,6 +6,7 @@ import TileLayer from 'ol/layer/Tile';
 import { useGeographic } from 'ol/proj';
 import OSM from 'ol/source/OSM';
 import { Observable, Subject } from 'rxjs';
+import { LocationProperties } from 'src/app/shared/models/location';
 
 @Component({
   selector: 'app-map',
@@ -16,16 +17,19 @@ import { Observable, Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapComponent implements OnInit {
+  @Input() set location(value: LocationProperties | null){
+    value ? this.mapchangehandler(value?.lat!, value?.lon!) : null;
+  }
   public currentLocation$: Subject<GeolocationPosition> = new Subject<GeolocationPosition>();
   public map!: Map;
 
   constructor(){}
 
   ngOnInit(): void {
-    this.getCurrentLocation();
-    this.currentLocation$.subscribe(res => {
-      this.initmap(res.coords.latitude, res.coords.longitude);
-    })
+      this.getCurrentLocation();
+      this.currentLocation$.subscribe(res => {
+        this.initmap(res.coords.latitude, res.coords.longitude);
+      })
   }
 
   getCurrentLocation() {
@@ -73,16 +77,13 @@ export class MapComponent implements OnInit {
     });
   }
 
-  mapchangehandler(lon: string, lat: string) : void {
-
+  mapchangehandler(lon: number, lat: number) : void {
     const oldmap = document.getElementById('ol-map');
     const newmap = document.createElement('div');
-    newmap.setAttribute('id','map');
-    newmap.setAttribute('style','height: 500px; width: 40%;')
-
-    // document.getElementById('maps-contaier-class').replaceChild(newmap,oldmap);
-
-    // this.initmap(lon,lat,'map');
+    newmap.setAttribute('id','ol-map');
+    newmap.setAttribute('style','height: 30vh; width: 100%;')
+    document.getElementById('map-contaier')!.replaceChild(newmap,oldmap!);
+    this.initmap(lon,lat);
   }
 
 }
