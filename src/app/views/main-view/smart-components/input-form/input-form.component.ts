@@ -17,7 +17,7 @@ import { initTE, Timepicker, Datepicker } from 'tw-elements';
 export class InputFormComponent implements OnInit {
   @Input() inputForm!: FormGroup;
 
-  @Output() onShowLocation: EventEmitter<LocationProperties | null>;
+  @Output() onShowData: EventEmitter<LocationProperties | null>;
 
   public selectedLocation!: LocationProperties | null;
   public searchValue$!: Subject<string>;
@@ -26,7 +26,7 @@ export class InputFormComponent implements OnInit {
 
   constructor(private readonly _locationService: LocationService){
     this.searchValue$ = new Subject<string>();
-    this.onShowLocation = new EventEmitter<LocationProperties | null>();
+    this.onShowData = new EventEmitter<LocationProperties | null>();
   }
 
   ngOnInit(): void {
@@ -58,7 +58,7 @@ export class InputFormComponent implements OnInit {
     this.inputForm.reset();
   }
 
-  showLocation(): void {
-    this.onShowLocation.emit(this.selectedLocation);
+  showData(): void {
+    this.onShowData.emit(this.selectedLocation);
   }
 }

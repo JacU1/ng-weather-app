@@ -17,7 +17,7 @@ import { LocationProperties } from 'src/app/shared/models/location';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapComponent implements OnInit {
-  @Input() set location(value: LocationProperties | null){
+  @Input() set location(value: LocationProperties){
     value ? this.mapchangehandler(value?.lat!, value?.lon!) : null;
   }
   public currentLocation$: Subject<GeolocationPosition> = new Subject<GeolocationPosition>();

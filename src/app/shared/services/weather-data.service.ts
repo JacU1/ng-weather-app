@@ -6,11 +6,10 @@ import { environment } from 'src/environments/environment.prod';
 @Injectable()
 
 export class WeatherDataService {
-
   constructor(private readonly _http: HttpClient) { }
 
-  public getCurrentWeather(location: string): Observable<any> {
-    const url = `${environment.weatherApiUrl}/weather?q='${location}'&units=metric&appid=${environment.weatherApiKey}`
+  public getCurrentWeather(lat: number, lon: number): Observable<any> {
+    const url = `${environment.weatherApiUrl}/weather?lat=${lat}&lon=${lon}&appid=${environment.weatherApiKey}`
     return this._http.get<any>(url);
   }
 
