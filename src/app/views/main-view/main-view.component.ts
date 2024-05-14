@@ -8,11 +8,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { Observable } from 'rxjs';
 import { LocationProperties } from 'src/app/shared/models/location';
 import { WeatherDataService } from 'src/app/shared/services/weather-data.service';
+import { FutureWaetherComponent } from './smart-components/future-waether/future-waether.component';
+import { TodayWeatherComponent } from './smart-components/today-weather/today-weather.component';
 
 @Component({
   selector: 'app-main-view',
   standalone: true,
-  imports: [DayBoxComponent, InputFormComponent, MapComponent ,CommonModule, SharedModule],
+  imports: [DayBoxComponent, InputFormComponent, MapComponent ,CommonModule, SharedModule, FutureWaetherComponent, TodayWeatherComponent],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.scss'
 })
@@ -20,7 +22,7 @@ export class MainViewComponent {
   public inputForm: FormGroup;
   public currentLocation$!: Observable<GeolocationPosition>;
   public newMapLocation!: LocationProperties;
-  public weatherData$: Observable<any>;
+  public weatherData$!: Observable<any>;
 
   constructor(private readonly _fb: FormBuilder, private readonly weatherService: WeatherDataService){
     

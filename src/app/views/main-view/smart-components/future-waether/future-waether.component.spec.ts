@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InfoPanelComponent } from './info-panel.component';
+import { FutureWaetherComponent } from './future-waether.component';
 
-describe('InfoPanelComponent', () => {
-  let component: InfoPanelComponent;
-  let fixture: ComponentFixture<InfoPanelComponent>;
+describe('FutureWaetherComponent', () => {
+  let component: FutureWaetherComponent;
+  let fixture: ComponentFixture<FutureWaetherComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InfoPanelComponent]
+      imports: [FutureWaetherComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(InfoPanelComponent);
+    fixture = TestBed.createComponent(FutureWaetherComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
