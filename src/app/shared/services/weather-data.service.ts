@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
+import { WeatherData } from '../models/weather';
 
 @Injectable()
 
 export class WeatherDataService {
   constructor(private readonly _http: HttpClient) { }
 
-  public getCurrentWeather(lat: number, lon: number): Observable<any> {
+  public getCurrentWeather(lat: number, lon: number): Observable<WeatherData> {
     const url = `${environment.weatherApiUrl}/weather?lat=${lat}&lon=${lon}&appid=${environment.weatherApiKey}`
     return this._http.get<any>(url);
   }
