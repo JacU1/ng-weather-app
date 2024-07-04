@@ -6,6 +6,7 @@ import { WeatherDataService } from './services/weather-data.service';
 import { SliderComponent } from './components/slider/slider.component';
 import { LocationService } from './services/location.service';
 import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -13,9 +14,10 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [NavbarComponent, FooterComponent, SliderComponent],
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    TranslateModule
   ],
-  exports: [NavbarComponent, FooterComponent, SliderComponent],
+  exports: [NavbarComponent, FooterComponent, SliderComponent, TranslateModule],
   providers: [WeatherDataService, LocationService]
 })
 export class SharedModule { }
