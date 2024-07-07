@@ -1,39 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DayBoxComponent } from './dumb-components/day-box/day-box.component';
 import { InputFormComponent } from './smart-components/input-form/input-form.component';
-import { MapComponent } from './dumb-components/map/map.component';
+import { MapComponent } from './smart-components/map/map.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LocationProperties } from 'src/app/shared/models/location';
 import { WeatherDataService } from 'src/app/shared/services/weather-data.service';
-import { FutureWaetherComponent } from './smart-components/future-waether/future-waether.component';
-import { TodayWeatherComponent } from './smart-components/today-weather/today-weather.component';
+import { FutureWaetherComponent } from './dumb-components/future-waether/future-waether.component';
+import { TodayWeatherComponent } from './dumb-components/today-weather/today-weather.component';
+import { LocationService } from 'src/app/shared/services/location.service';
 
 @Component({
   selector: 'app-main-view',
   standalone: true,
-  imports: [DayBoxComponent, InputFormComponent, MapComponent ,CommonModule, SharedModule, FutureWaetherComponent, TodayWeatherComponent],
+  imports: [DayBoxComponent, InputFormComponent, MapComponent, CommonModule, SharedModule, FutureWaetherComponent, TodayWeatherComponent],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.scss'
 })
-export class MainViewComponent {
+export class MainViewComponent implements OnInit, OnDestroy {
   public inputForm: FormGroup;
-  public currentLocation$!: Observable<GeolocationPosition>;
   public newMapLocation!: LocationProperties;
   public weatherData$!: Observable<any>;
 
-  constructor(private readonly _fb: FormBuilder, private readonly weatherService: WeatherDataService){
-    
-    this.inputForm = this._fb.group({
+  private sub: Subscription = new Subscription();
+
+  constructor(private readonly _fb: FormBuilder, 
+    private readonly weatherService: WeatherDataService,
+    readonly locationService: LocationService){
+      this.inputForm = this._fb.group({
       time: new FormControl(''),
       date: new FormControl('')
     });
   }
 
+  ngOnInit(): void {
+      
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
   onSelectedLocation(event: LocationProperties | null): void {
     this.newMapLocation = event!;
-    this.weatherService.getCurrentWeather(event!.lat, event!.lon).subscribe(res => console.log(res))
+    this.sub.add(
+      this.weatherService.getCurrentWeather(event!.lat, event!.lon).subscribe(res => console.log(res))
+    );
   }
 }

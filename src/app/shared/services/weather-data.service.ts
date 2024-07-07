@@ -15,7 +15,7 @@ export class WeatherDataService {
   }
 
   public getHistoryWeather(lat: string, lon: string, time: string): Observable<any>{
-    let url = `${environment.weatherApiUrl}/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${time}&units=metric&appid=${environment.weatherApiKey}`
+    const url = `${environment.weatherApiUrl}/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${time}&units=metric&appid=${environment.weatherApiKey}`
     return this._http.get<any>(url);
   }
 
