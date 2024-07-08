@@ -1,30 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { LocationRoot } from '../models/location';
+import { config } from '../config';
+import { ReverseLocation } from '../models/reverseLocation';
 
 @Injectable()
 export class LocationService {
-  public currentLocation$: Subject<GeolocationPosition> = new Subject<GeolocationPosition>();
+  public currentLocation$: Subject<ReverseLocation> = new Subject<ReverseLocation>();
 
   constructor(private readonly _http: HttpClient) {
     this.getCurrentLocation();
    }
 
   getLocation(location: string): Observable<LocationRoot> {
-    return this._http.get<LocationRoot>(`${environment.autocompleteAPIUrl}${location}&apiKey=${environment.autocompleteAPIKey}`)
+    return this._http.get<LocationRoot>(`${config.locationApiUrl}/autocomplete?text=${location}&apiKey=${environment.locationApiKey}`)
   }
-  // https://api.geoapify.com/v1/geocode/reverse?lat=51.21709661403662&lon=6.7782883744862374&apiKey=aee5d9b00ea24a06bfef416ecc28f8b2
-  getLocationReverse(): Observable<any> {
-    return this._http.get<LocationRoot>(`${environment.autocompleteAPIUrl}${location}&apiKey=${environment.autocompleteAPIKey}`)
+  getLocationReverse(lat: number, lon: number): Observable<ReverseLocation> {
+    return this._http.get<ReverseLocation>(`${config.locationApiUrl}/reverse?lat=${lat}&lon=${lon}&apiKey=${environment.locationApiKey}`)
   }
 
   getCurrentLocation() { 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((values) => {
         console.log(values);
-        this.currentLocation$.next(values);
+        this.getLocationReverse(values.coords.latitude, values.coords.longitude).subscribe(res => {
+          console.log(res);
+          this.currentLocation$.next(res);
+        });
       }, this.showError);
     } else {
       alert('Geolocation is not supported by this browser.');
