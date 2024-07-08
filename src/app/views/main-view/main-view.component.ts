@@ -5,7 +5,7 @@ import { MapComponent } from './smart-components/map/map.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, map, take } from 'rxjs';
 import { LocationProperties } from 'src/app/shared/models/location';
 import { WeatherDataService } from 'src/app/shared/services/weather-data.service';
 import { FutureWaetherComponent } from './dumb-components/future-waether/future-waether.component';
@@ -19,7 +19,7 @@ import { LocationService } from 'src/app/shared/services/location.service';
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.scss'
 })
-export class MainViewComponent implements OnInit, OnDestroy {
+export class MainViewComponent implements OnDestroy {
   public inputForm: FormGroup;
   public newMapLocation!: LocationProperties;
   public weatherData$!: Observable<any>;
@@ -35,8 +35,8 @@ export class MainViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
-      
+  get currentLocationName() : Observable<string> {
+    return this.locationService.currentLocation$.pipe(take(1), map(currentLocation => currentLocation.features[0].properties.city))
   }
 
   ngOnDestroy(): void {

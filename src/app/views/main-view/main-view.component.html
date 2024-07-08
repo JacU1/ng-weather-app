@@ -1,23 +1,25 @@
 <div class="container flex flex-col">
   <div class="flex flex-col text-white items-center">
     <app-today-weather
-    [location] = "'test location'"
-    [temp] = "1"
-    [tempMin] = "3"
-    [tempMax] = "4"></app-today-weather>
+      [location]="(locationService.currentLocation$ | async)!.features[0]!.properties.city"
+      [temp]="1"
+      [tempMin]="3"
+      [tempMax]="4"
+    >
+    </app-today-weather>
   </div>
-  
-  <div class="flex flex-col shadow-lg rounded-lg m-4 bg-white">
-  </div>
-  
+
+  <div class="flex flex-col shadow-lg rounded-lg m-4 bg-white"></div>
+
   <div class="flex flex-col shadow-lg rounded-lg m-4 bg-white">
     <app-future-waether></app-future-waether>
   </div>
-  
+
   <div class="shadow-lg rounded-lg m-4 bg-white">
-      <app-map [location]="newMapLocation"></app-map>
-    <app-input-form [inputForm]="inputForm" 
-      (onShowData)="onSelectedLocation($event)"></app-input-form>
+    <app-map [location]="newMapLocation"></app-map>
+    <app-input-form
+      [inputForm]="inputForm"
+      (onShowData)="onSelectedLocation($event)"
+    ></app-input-form>
   </div>
-  
 </div>

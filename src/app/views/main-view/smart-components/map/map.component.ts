@@ -23,16 +23,15 @@ import { config } from 'src/app/shared/config'
 })
 export class MapComponent implements OnInit {
   @Input() set location(value: LocationProperties) {
-    value ? this.mapchangehandler(value?.lat!, value?.lon!) : null;
+    this.mapchangehandler(value?.lat!, value?.lon!);
   }
   public map!: Map;
 
   constructor(private readonly locationService: LocationService) {}
 
   ngOnInit(): void {
-    this.initmap(config.defaultLat, config.defaultLon);
     this.locationService.currentLocation$.pipe(take(1)).subscribe((res) => {
-      this.mapchangehandler(res.coords.latitude, res.coords.longitude);
+      this.mapchangehandler(res.query.lat, res.query.lon);
     })
   }
 
