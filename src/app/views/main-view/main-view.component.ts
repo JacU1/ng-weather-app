@@ -5,7 +5,7 @@ import { MapComponent } from './smart-components/map/map.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { Observable, Subscription, map, take } from 'rxjs';
+import { Observable, Subscription, map, switchMap, take } from 'rxjs';
 import { LocationProperties } from 'src/app/shared/models/location';
 import { WeatherDataService } from 'src/app/shared/services/weather-data.service';
 import { FutureWaetherComponent } from './dumb-components/future-waether/future-waether.component';
@@ -22,7 +22,7 @@ import { LocationService } from 'src/app/shared/services/location.service';
 export class MainViewComponent implements OnDestroy {
   public inputForm: FormGroup;
   public newMapLocation!: LocationProperties;
-  public weatherData$!: Observable<any>;
+  public currentLocationData$!: Observable<any>;
 
   private sub: Subscription = new Subscription();
 
@@ -33,10 +33,42 @@ export class MainViewComponent implements OnDestroy {
       time: new FormControl(''),
       date: new FormControl('')
     });
+
+    this.getCurrentLocationData();
   }
 
-  get currentLocationName() : Observable<string> {
-    return this.locationService.currentLocation$.pipe(take(1), map(currentLocation => currentLocation.features[0].properties.city))
+  getCurrentLocationData() { 
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((values) => {
+
+        this.currentLocationData$ = this.locationService.getLocationReverse(values.coords.latitude, values.coords.longitude).pipe(switchMap(location => {
+          return this.weatherService.getCurrentWeather(location.query.lat, location.query.lon)
+        })) 
+
+        this.locationService.getLocationReverse(values.coords.latitude, values.coords.longitude).subscribe(res => {
+          this.locationService.currentLocation$.next(res);
+        });
+      }, this.showError);
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  }
+
+  showError(error: any) {
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        alert('User denied the request for Geolocation.');
+        break;
+      case error.POSITION_UNAVAILABLE:
+        alert('Location information is unavailable.');
+        break;
+      case error.TIMEOUT:
+        alert('The request to get user location timed out.');
+        break;
+      case error.UNKNOWN_ERROR:
+        alert('An unknown error occurred.');
+        break;
+    }
   }
 
   ngOnDestroy(): void {
