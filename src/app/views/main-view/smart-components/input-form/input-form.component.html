@@ -3,7 +3,7 @@
     <label
       for="location"
       class="block text-sm font-medium leading-6 text-gray-900"
-      >Location</label
+      >{{ "inputForm.location" | translate }}</label
     >
     <div
       class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
@@ -19,14 +19,19 @@
         (scrollToEnd)="onScrollSearch($event)"
         class="peer text-neutral-200 block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear peer-focus:text-primary motion-reduce:transition-none dark:peer-focus:text-primary"
       >
-      <ng-container *ngIf="(searchedResults$ | async) as searchedResults">
-        <ng-option *ngFor="let location of searchedResults" [value]="location.properties">
-          <div class="flex justify-between items-center">
-            <p class="text-sm">{{location.properties.city}}</p>
-            <p class="text-xs opacity-25">{{location.properties.country}}</p>
-          </div>
-        </ng-option>
-      </ng-container>
+        <ng-container *ngIf="searchedResults$ | async as searchedResults">
+          <ng-option
+            *ngFor="let location of searchedResults"
+            [value]="location.properties"
+          >
+            <div class="flex justify-between items-center">
+              <p class="text-sm">{{ location.properties.city }}</p>
+              <p class="text-xs opacity-25">
+                {{ location.properties.country }}
+              </p>
+            </div>
+          </ng-option>
+        </ng-container>
       </ng-select>
     </div>
   </div>
@@ -36,7 +41,7 @@
       <label
         for="timepicker"
         class="block text-sm font-medium leading-6 text-gray-900"
-        >Time select</label
+        >{{ "inputForm.time" | translate }}</label
       >
       <div
         class="timepicker-wrapper relative flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
@@ -45,7 +50,7 @@
       >
         <input
           type="text"
-          [formControlName]="'time'"
+          formControlName="time"
           class="peer text-black block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
           name="timepicker"
           id="timepicker"
@@ -56,7 +61,7 @@
       <label
         for="datepicker"
         class="block text-sm font-medium leading-6 text-gray-900"
-        >Date select</label
+        >{{ "inputForm.date" | translate }}</label
       >
       <div
         class="relative mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
@@ -75,8 +80,20 @@
     <ng-container *ngIf="selectedLocation">
       <div class="actions">
         <div class="w-full flex justify-center">
-          <button type="button" class="bg-indigo-600 p-2 text-white rounded-lg m-2 w-1/2" (click)="showData()">Show</button>
-          <button type="button" class="bg-indigo-600 p-2 text-white rounded-lg m-2 w-1/2" (click)="clearInputs()">Clear all</button>
+          <button
+            type="button"
+            class="bg-indigo-600 p-2 text-white rounded-lg m-2 w-1/2"
+            (click)="showData()"
+          >
+            {{ "inputForm.select" | translate }}
+          </button>
+          <button
+            type="button"
+            class="bg-indigo-600 p-2 text-white rounded-lg m-2 w-1/2"
+            (click)="clearInputs()"
+          >
+          {{ "inputForm.clearAll" | translate }}
+          </button>
         </div>
       </div>
     </ng-container>

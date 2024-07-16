@@ -1,5 +1,12 @@
 {
     "weatherInfo": {
         "myLocation": "My location"
+    },
+    "inputForm": {
+        "location": "Location",
+        "time": "Select Time",
+        "date": "Select Date",
+        "select": "Select",
+        "clearAll": "Clear All"
     }
 }

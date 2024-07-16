@@ -5,11 +5,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { Observable, Subject, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs';
 import { LocationFeatures, LocationProperties } from 'src/app/shared/models/location';
 import { LocationService } from 'src/app/shared/services/location.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { initTE, Timepicker, Datepicker } from 'tw-elements';
 @Component({
   selector: 'app-input-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, NgSelectModule, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, NgSelectModule, CommonModule, SharedModule],
   templateUrl: './input-form.component.html',
   styleUrl: './input-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -35,8 +36,8 @@ export class InputFormComponent implements OnInit {
       return this._locationService.getLocation(change).pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        map(res => {
-          return res.features;
+        map(location => {
+          return location.features;
         }))
     }));
   }
