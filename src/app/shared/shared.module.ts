@@ -7,6 +7,7 @@ import { SliderComponent } from './components/slider/slider.component';
 import { LocationService } from './services/location.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
+import { KelvinToCelsiusPipe } from './pipes/kelvin-to-celsius.pipe';
 
 
 
@@ -15,9 +16,10 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [
     CommonModule,
     HttpClientModule,
-    TranslateModule
+    TranslateModule,
+    KelvinToCelsiusPipe
   ],
-  exports: [NavbarComponent, FooterComponent, SliderComponent, TranslateModule],
+  exports: [NavbarComponent, FooterComponent, SliderComponent, TranslateModule, KelvinToCelsiusPipe],
   providers: [WeatherDataService, LocationService]
 })
 export class SharedModule { }

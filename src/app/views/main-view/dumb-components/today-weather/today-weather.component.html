@@ -1,16 +1,19 @@
 <div class="text-center">
     <ul>
         <li>
-            <p class="text-2xl">{{ 'weatherInfo.myLocation' | translate }}</p>            
+            <p class="text-xl">{{ 'weatherInfo.myLocation' | translate }}</p>            
         </li>
         <li>
-            <p>{{ location || '' }}</p>
+            <p class="text-xs">{{ location || '' }}</p>
         </li>
         <li>
-            <p>{{ temp }}</p>
+            <p class="text-4xl">{{ temp + ' ℃'}}</p>
         </li>
         <li>
-            <p>{{ type }}</p>
+            <p class="text-xs">{{ description.charAt(0).toUpperCase() + description.slice(1) }}</p>
+        </li>
+        <li>
+            <p class="text-xs">{{ tempMin + ' ℃ ' + ' - ' + tempMax + ' ℃' }}</p>
         </li>
     </ul>
 </div>

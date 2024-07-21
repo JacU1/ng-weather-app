@@ -5,12 +5,13 @@ import { MapComponent } from './smart-components/map/map.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { Observable, Subscription, map, switchMap, take } from 'rxjs';
-import { LocationProperties } from 'src/app/shared/models/location';
+import { Observable, Subscription, map, switchMap, take, tap } from 'rxjs';
 import { WeatherDataService } from 'src/app/shared/services/weather-data.service';
 import { FutureWaetherComponent } from './dumb-components/future-waether/future-waether.component';
 import { TodayWeatherComponent } from './dumb-components/today-weather/today-weather.component';
 import { LocationService } from 'src/app/shared/services/location.service';
+import { Coord, WeatherData } from 'src/app/shared/models/weather';
+import { KelvinToCelsiusPipe } from "../../shared/pipes/kelvin-to-celsius.pipe";
 
 @Component({
   selector: 'app-main-view',
@@ -21,14 +22,14 @@ import { LocationService } from 'src/app/shared/services/location.service';
 })
 export class MainViewComponent implements OnDestroy {
   public inputForm: FormGroup;
-  public newMapLocation!: LocationProperties;
-  public currentLocationData$!: Observable<any>;
+  public newMapLocation!: Coord;
+  public locationData$?: Observable<WeatherData>;
 
   private sub: Subscription = new Subscription();
 
   constructor(private readonly _fb: FormBuilder, 
     private readonly weatherService: WeatherDataService,
-    readonly locationService: LocationService){
+    private readonly locationService: LocationService){
       this.inputForm = this._fb.group({
       time: new FormControl(''),
       date: new FormControl('')
@@ -37,24 +38,23 @@ export class MainViewComponent implements OnDestroy {
     this.getCurrentLocationData();
   }
 
-  getCurrentLocationData() { 
+  getCurrentLocationData(): void { 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((values) => {
-
-        this.currentLocationData$ = this.locationService.getLocationReverse(values.coords.latitude, values.coords.longitude).pipe(switchMap(location => {
-          return this.weatherService.getCurrentWeather(location.query.lat, location.query.lon)
-        })) 
-
-        this.locationService.getLocationReverse(values.coords.latitude, values.coords.longitude).subscribe(res => {
-          this.locationService.currentLocation$.next(res);
-        });
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.setLocationData(position.coords.latitude, position.coords.longitude);
       }, this.showError);
     } else {
       alert('Geolocation is not supported by this browser.');
     }
   }
 
-  showError(error: any) {
+  setLocationData(lat: number, lon: number): void {
+    this.locationData$ = this.locationService.getLocationReverse(lat, lon).pipe(switchMap(location => {
+      return this.weatherService.getCurrentWeather(location.query.lat, location.query.lon).pipe(tap(res => console.log(res)));
+    }));
+  }
+
+  showError(error: any): void {
     switch (error.code) {
       case error.PERMISSION_DENIED:
         alert('User denied the request for Geolocation.');
@@ -75,10 +75,7 @@ export class MainViewComponent implements OnDestroy {
     this.sub.unsubscribe();
   }
 
-  onSelectedLocation(event: LocationProperties | null): void {
-    this.newMapLocation = event!;
-    this.sub.add(
-      this.weatherService.getCurrentWeather(event!.lat, event!.lon).subscribe(res => console.log(res))
-    );
+  onSelectedLocation(value: Coord): void {
+    this.setLocationData(value.lat, value.lon);
   }
 }
