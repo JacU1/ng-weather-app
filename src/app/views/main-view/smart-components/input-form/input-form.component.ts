@@ -4,6 +4,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Observable, Subject, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs';
 import { LocationFeatures, LocationProperties } from 'src/app/shared/models/location';
+import { Coord } from 'src/app/shared/models/weather';
 import { LocationService } from 'src/app/shared/services/location.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { initTE, Timepicker, Datepicker } from 'tw-elements';
@@ -18,16 +19,16 @@ import { initTE, Timepicker, Datepicker } from 'tw-elements';
 export class InputFormComponent implements OnInit {
   @Input() inputForm!: FormGroup;
 
-  @Output() onShowData: EventEmitter<LocationProperties | null>;
+  @Output() onShowData: EventEmitter<Coord>;
 
-  public selectedLocation!: LocationProperties | null;
+  public selectedLocation!: LocationProperties;
   public searchValue$!: Subject<string>;
   public searchedLocations!: any[];
   public searchedResults$!: Observable<LocationFeatures[]>;
 
   constructor(private readonly _locationService: LocationService){
     this.searchValue$ = new Subject<string>();
-    this.onShowData = new EventEmitter<LocationProperties | null>();
+    this.onShowData = new EventEmitter<Coord>();
   }
 
   ngOnInit(): void {
@@ -55,11 +56,10 @@ export class InputFormComponent implements OnInit {
   }
 
   clearInputs(): void {
-    this.selectedLocation = null;
     this.inputForm.reset();
   }
 
   showData(): void {
-    this.onShowData.emit(this.selectedLocation);
+    this.onShowData.emit({lat: this.selectedLocation.lat, lon: this.selectedLocation.lon});
   }
 }

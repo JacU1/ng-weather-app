@@ -1,25 +1,25 @@
 <div class="container flex flex-col">
-  
-    <ng-container *ngIf="(locationService.currentLocation$ | async) as locationData">
+    <ng-container *ngIf="(locationData$ | async) as locationData">
       <div class="flex flex-col text-white items-center">
         <app-today-weather
-        [location]="locationData.features[0].properties.city"
-        [temp]="1"
-        [tempMin]="3"
-        [tempMax]="4"
+        [location]="locationData.name"
+        [temp]="locationData.main.temp | kelvinToCelsius"
+        [description]="locationData.weather[0].description"
+        [tempMin]="locationData.main.temp_min | kelvinToCelsius"
+        [tempMax]="locationData.main.temp_max | kelvinToCelsius"
       >
       </app-today-weather>  
       </div>
       <div class="flex flex-col shadow-lg rounded-lg m-4 bg-white">
         <app-future-waether></app-future-waether>
       </div>
-    </ng-container>
 
-  <div class="shadow-lg rounded-lg m-4 bg-white">
-    <app-map [location]="newMapLocation"></app-map>
-    <app-input-form
-      [inputForm]="inputForm"
-      (onShowData)="onSelectedLocation($event)"
-    ></app-input-form>
-  </div>
+      <div class="shadow-lg rounded-lg m-4 bg-white">
+        <app-map [location]="locationData.coord"></app-map>
+        <app-input-form
+          [inputForm]="inputForm"
+          (onShowData)="onSelectedLocation($event)"
+        ></app-input-form>
+      </div>
+    </ng-container>
 </div>

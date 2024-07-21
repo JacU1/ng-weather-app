@@ -13,6 +13,7 @@ import { take } from 'rxjs';
 import { LocationProperties } from 'src/app/shared/models/location';
 import { LocationService } from 'src/app/shared/services/location.service';
 import { config } from 'src/app/shared/config'
+import { Coord } from 'src/app/shared/models/weather';
 
 @Component({
   selector: 'app-map',
@@ -21,19 +22,13 @@ import { config } from 'src/app/shared/config'
   styleUrl: './map.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent implements OnInit {
-  @Input() set location(value: LocationProperties) {
-    this.mapchangehandler(value?.lat!, value?.lon!);
+export class MapComponent {
+  @Input() set location(value: Coord) {
+    this.mapchangehandler(value.lat, value.lon);
   }
-  public map!: Map;
+  public map?: Map;
 
-  constructor(private readonly locationService: LocationService) {}
-
-  ngOnInit(): void {
-    this.locationService.currentLocation$.pipe(take(1)).subscribe((res) => {
-      this.mapchangehandler(res.query.lat, res.query.lon);
-    })
-  }
+  constructor() {}
 
   initmap(lat: number, lon: number): void {
     useGeographic();

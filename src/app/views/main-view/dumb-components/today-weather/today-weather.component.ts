@@ -12,7 +12,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 export class TodayWeatherComponent {
   @Input() location!: string;
   @Input() temp!: number;
-  @Input() type!: WeatherTypesEnum;
+  @Input() description!: WeatherTypesEnum | string;
   @Input() tempMin!: number;
   @Input() tempMax!: number;
 }
