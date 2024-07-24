@@ -1,20 +1,35 @@
 <div class="text-center m-6">
+  <div>
     <ul>
-        <li>
-            <p class="text-xl">{{ 'weatherInfo.myLocation' | translate }}</p>            
-        </li>
-        <li>
-            <p class="text-xs">{{ location || '' }}</p>
-        </li>
-        <li>
-            <p class="text-5xl">{{ temp + ' ℃'}}</p>
-        </li>
-        <li>
-            <p class="text-xs">{{ description.charAt(0).toUpperCase() + description.slice(1) }}</p>
-        </li>
-        <li>
-            <p class="text-xs">{{ tempMin + ' ℃ ' + ' - ' + tempMax + ' ℃' }}</p>
-        </li>
+      <li class="my-0">
+        <p class="text-xl tracking-wide">
+          {{ "weatherInfo.myLocation" | translate }}
+        </p>
+      </li>
+      <li>
+        <p class="text-xs tracking-wide font-medium">
+          {{ location.toUpperCase() || "" }}
+        </p>
+      </li>
+      <li class="my-2">
+        <p class="text-5xl">{{ temp + " ℃" }}</p>
+      </li>
+      <li>
+        <p class="text-sm">
+          {{ description.charAt(0).toUpperCase() + description.slice(1) }}
+        </p>
+      </li>
+      <li>
+        <p class="text-base">{{ tempMin + " ℃ " + " - " + tempMax + " ℃" }}</p>
+      </li>
     </ul>
+  </div>
 </div>
-
+<div class="flex flex-col shadow-lg rounded-lg m-4 bg-white text-black">
+  <div class="text-xs">
+    <p>Pogodnie dziś wieczorem, od rana. Porywy wiatru osiągną 6m/s.</p>
+  </div>
+  <div class="flex flex-row">
+    <app-day-box></app-day-box>
+  </div>
+</div>
