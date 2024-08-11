@@ -2,11 +2,13 @@
     <ng-container *ngIf="(locationData$ | async) as locationData">
       <div class="flex flex-col text-white items-center">
         <app-today-weather
-        [location]="locationData.name"
-        [temp]="locationData.main.temp | kelvinToCelsius"
-        [description]="locationData.weather[0].description"
-        [tempMin]="locationData.main.temp_min | kelvinToCelsius"
-        [tempMax]="locationData.main.temp_max | kelvinToCelsius"
+        [location]="locationData.weather.name"
+        [mainWeather]="locationData.weather.main"
+        [descriptionShort]="locationData.weather.weather[0].description"
+        [wind]="locationData.weather.wind"
+        [timezone]="locationData.location.features[0].properties.timezone"
+        [clouds]="locationData.weather.clouds"
+        [rank]="locationData.location.features[0].properties.rank"
       >
       </app-today-weather>  
       </div>
@@ -15,7 +17,7 @@
       </div>
 
       <div class="shadow-lg rounded-lg m-4 bg-white">
-        <app-map [location]="locationData.coord"></app-map>
+        <app-map [location]="locationData.weather.coord"></app-map>
         <app-input-form
           [inputForm]="inputForm"
           (onShowData)="onSelectedLocation($event)"

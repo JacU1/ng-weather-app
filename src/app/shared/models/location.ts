@@ -1,3 +1,6 @@
+import { ReverseLocation } from "./reverseLocation"
+import { WeatherData } from "./weather"
+
 export interface LocationRoot {
     type: string
     features: LocationFeatures[]
@@ -74,3 +77,7 @@ export interface LocationRoot {
     expected_type: string
   }
   
+  export type LocationWeather = {
+    location: ReverseLocation; 
+    weather: WeatherData;
+  }

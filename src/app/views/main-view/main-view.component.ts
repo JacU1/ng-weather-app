@@ -5,43 +5,56 @@ import { MapComponent } from './smart-components/map/map.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { Observable, Subscription, map, switchMap, take, tap } from 'rxjs';
+import { Observable, Subscription, map, mergeMap, switchMap, take, tap } from 'rxjs';
 import { WeatherDataService } from 'src/app/shared/services/weather-data.service';
 import { FutureWaetherComponent } from './dumb-components/future-waether/future-waether.component';
 import { TodayWeatherComponent } from './dumb-components/today-weather/today-weather.component';
 import { LocationService } from 'src/app/shared/services/location.service';
-import { Coord, WeatherData } from 'src/app/shared/models/weather';
-import { KelvinToCelsiusPipe } from "../../shared/pipes/kelvin-to-celsius.pipe";
+import { Coord } from 'src/app/shared/models/weather';
+import { LocationWeather } from 'src/app/shared/models/location';
 
 @Component({
   selector: 'app-main-view',
   standalone: true,
-  imports: [DayBoxComponent, InputFormComponent, MapComponent, CommonModule, SharedModule, FutureWaetherComponent, TodayWeatherComponent],
+  imports: [
+    DayBoxComponent,
+    InputFormComponent,
+    MapComponent,
+    CommonModule,
+    SharedModule,
+    FutureWaetherComponent,
+    TodayWeatherComponent,
+  ],
   templateUrl: './main-view.component.html',
-  styleUrl: './main-view.component.scss'
+  styleUrl: './main-view.component.scss',
 })
 export class MainViewComponent implements OnDestroy {
   public inputForm: FormGroup;
   public newMapLocation!: Coord;
-  public locationData$?: Observable<WeatherData>;
+  public locationData$?: Observable<LocationWeather>;
 
   private sub: Subscription = new Subscription();
 
-  constructor(private readonly _fb: FormBuilder, 
+  constructor(
+    private readonly _fb: FormBuilder,
     private readonly weatherService: WeatherDataService,
-    private readonly locationService: LocationService){
-      this.inputForm = this._fb.group({
+    private readonly locationService: LocationService
+  ) {
+    this.inputForm = this._fb.group({
       time: new FormControl(''),
-      date: new FormControl('')
+      date: new FormControl(''),
     });
 
     this.getCurrentLocationData();
   }
 
-  getCurrentLocationData(): void { 
+  getCurrentLocationData(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.setLocationData(position.coords.latitude, position.coords.longitude);
+        this.setLocationData(
+          position.coords.latitude,
+          position.coords.longitude
+        );
       }, this.showError);
     } else {
       alert('Geolocation is not supported by this browser.');
@@ -49,9 +62,18 @@ export class MainViewComponent implements OnDestroy {
   }
 
   setLocationData(lat: number, lon: number): void {
-    this.locationData$ = this.locationService.getLocationReverse(lat, lon).pipe(switchMap(location => {
-      return this.weatherService.getCurrentWeather(location.query.lat, location.query.lon).pipe(tap(res => console.log(res)));
-    }));
+    this.locationData$ = this.locationService.getLocationReverse(lat, lon).pipe(
+      take(1),
+      mergeMap((location) => {
+        return this.weatherService
+          .getCurrentWeather(location.query.lat, location.query.lon)
+          .pipe(
+            map((weather) => {
+              return {location, weather}
+            }),
+          );
+      })
+    );
   }
 
   showError(error: any): void {
