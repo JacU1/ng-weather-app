@@ -3,7 +3,7 @@
     <ul>
       <li class="my-0">
         <p class="text-xl tracking-wide">
-          {{ "weatherInfo.myLocation" | translate }}
+          {{ "WEATHER_INFO.MY_LOCATION" | translate }}
         </p>
       </li>
       <li>
@@ -12,22 +12,42 @@
         </p>
       </li>
       <li class="my-2">
-        <p class="text-5xl">{{ temp + " ℃" }}</p>
+        <p class="text-5xl">{{ (mainWeather.temp | number: '1.0-0') + " ℃" }}</p>
       </li>
       <li>
         <p class="text-sm">
-          {{ description.charAt(0).toUpperCase() + description.slice(1) }}
+          {{ descriptionShort.charAt(0).toUpperCase() + descriptionShort.slice(1) }}
         </p>
       </li>
       <li>
-        <p class="text-base">{{ tempMin + " ℃ " + " - " + tempMax + " ℃" }}</p>
+        @if (mainWeather.temp_min === mainWeather.temp_max) {
+          <p class="text-base">{{ (mainWeather.temp_min | number: '1.0-0') + " ℃ "}}</p>
+        } @else {
+          <p class="text-base">{{ (mainWeather.temp_min | number: '1.0-0') + " ℃ " + " - " + (mainWeather.temp_max | number: '1.0-0') + " ℃" }}</p>
+        }
       </li>
     </ul>
   </div>
 </div>
 <div class="flex flex-col shadow-lg rounded-lg m-4 bg-white text-black">
   <div class="text-xs">
-    <p>Pogodnie dziś wieczorem, od rana. Porywy wiatru osiągną 6m/s.</p>
+    <ul>
+      <li>
+        <div class="flex">
+          <p>{{ "WEATHER_INFO.CLOUDS" | translate }}:</p>&nbsp;
+          <p>{{ descriptionShort.charAt(0).toUpperCase() + descriptionShort.slice(1) }}</p>
+        </div>
+      </li>
+      <li>
+        <div class="flex">
+          <p>{{ "WEATHER_INFO.WIND" | translate }}:</p>&nbsp;
+          <p>{{  wind.deg }}</p>
+          &nbsp;
+          <p>{{ "WEATHER_INFO.WIND" | translate }}:</p>&nbsp;
+          <p>{{  wind.speed }}</p>
+        </div>
+      </li>
+    </ul>
   </div>
   <div class="flex flex-row">
     <app-day-box></app-day-box>

@@ -1,12 +1,8 @@
-export enum WeatherTypesEnum {
-    SUNNY = 'sunny'
-}
-
 export interface WeatherData {
     coord: Coord
     weather: WeatherInfo[]
     base: string
-    main: MainInfo
+    main: MainWeatherInfo
     visibility: number
     wind: WindInfo
     clouds: CloudsInfo
@@ -30,7 +26,7 @@ export interface WeatherData {
     icon: string
   }
   
-  export interface MainInfo {
+  export interface MainWeatherInfo {
     temp: number
     feels_like: number
     temp_min: number

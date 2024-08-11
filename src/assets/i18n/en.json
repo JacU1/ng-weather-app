@@ -1,6 +1,8 @@
 {
-    "weatherInfo": {
-        "myLocation": "My location"
+    "WEATHER_INFO": {
+        "MY_LOCATION": "My location",
+        "CLOUDS": "Clouds",
+        "WIND": "Wind"
     },
     "inputForm": {
         "location": "Location",

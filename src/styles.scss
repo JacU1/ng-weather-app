@@ -2,13 +2,8 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-// body {
-//     font-family: 'Roboto-Flex', sans-serif;
-//   }
-
-body {
-  font-family: -apple-system-caption1, BlinkMacSystemFont, sans-serif;
+html, body {
+  font-family: 'Rubik';
 }
