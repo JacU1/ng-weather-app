@@ -1,27 +1,10 @@
 <div class="container flex flex-col">
-    <ng-container *ngIf="(locationData$ | async) as locationData">
-      <div class="flex flex-col text-white items-center">
-        <app-today-weather
-        [location]="locationData.weather.name"
-        [mainWeather]="locationData.weather.main"
-        [descriptionShort]="locationData.weather.weather[0].description"
-        [wind]="locationData.weather.wind"
-        [timezone]="locationData.location.features[0].properties.timezone"
-        [clouds]="locationData.weather.clouds"
-        [rank]="locationData.location.features[0].properties.rank"
-      >
-      </app-today-weather>  
-      </div>
-      <div class="flex flex-col shadow-lg rounded-lg m-4 bg-white">
-        <app-future-waether></app-future-waether>
-      </div>
-
-      <div class="shadow-lg rounded-lg m-4 bg-white">
-        <app-map [location]="locationData.weather.coord"></app-map>
-        <app-input-form
-          [inputForm]="inputForm"
-          (onShowData)="onSelectedLocation($event)"
-        ></app-input-form>
-      </div>
-    </ng-container>
+    <app-accordion></app-accordion>
+    <div class="shadow-lg rounded-lg m-4 bg-white">
+      <app-map [location]="(locationData$ | async) ? (locationData$ | async)?.weather?.coord : {lat: defaults.lat, lon: defaults.lon}"></app-map>
+      <app-input-form
+        [inputForm]="inputForm"
+        (onShowData)="onSelectedLocation($event)"
+      ></app-input-form>
+    </div>
 </div>

@@ -8,18 +8,19 @@ import { LocationService } from './services/location.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { KelvinToCelsiusPipe } from './pipes/kelvin-to-celsius.pipe';
+import { AccordionComponent } from './components/accordion/accordion.component';
 
 
 
 @NgModule({
-  declarations: [NavbarComponent, FooterComponent, SliderComponent],
+  declarations: [NavbarComponent, FooterComponent, SliderComponent,AccordionComponent],
   imports: [
     CommonModule,
     HttpClientModule,
     TranslateModule,
     KelvinToCelsiusPipe
   ],
-  exports: [NavbarComponent, FooterComponent, SliderComponent, TranslateModule, KelvinToCelsiusPipe],
+  exports: [NavbarComponent, FooterComponent, SliderComponent, TranslateModule, KelvinToCelsiusPipe, AccordionComponent],
   providers: [WeatherDataService, LocationService]
 })
 export class SharedModule { }

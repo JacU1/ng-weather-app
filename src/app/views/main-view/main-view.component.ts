@@ -1,3 +1,4 @@
+import { defaults } from './../../shared/defaults';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DayBoxComponent } from './dumb-components/day-box/day-box.component';
 import { InputFormComponent } from './smart-components/input-form/input-form.component';
@@ -24,7 +25,7 @@ import { LocationWeather } from 'src/app/shared/models/location';
     SharedModule,
     FutureWaetherComponent,
     TodayWeatherComponent,
-  ],
+],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.scss',
 })
@@ -32,6 +33,7 @@ export class MainViewComponent implements OnDestroy {
   public inputForm: FormGroup;
   public newMapLocation!: Coord;
   public locationData$?: Observable<LocationWeather>;
+  public defaults = defaults;
 
   private sub: Subscription = new Subscription();
 
