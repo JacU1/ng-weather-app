@@ -36,9 +36,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   templateUrl: './input-form.component.html',
   styleUrl: './input-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InputFormComponent implements OnInit {
+export class InputFormComponent  {
   @Input() inputForm!: FormGroup;
 
   @Output() onShowData: EventEmitter<Coord>;
