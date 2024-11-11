@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -29,7 +30,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         defaultLanguage: 'en',
         
     }),
+    NgbModule,
   ],
   providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,10 +1,23 @@
 <div class="container flex flex-col">
-    <app-accordion></app-accordion>
-    <div class="shadow-lg rounded-lg m-4 bg-white">
-      <app-map [location]="(locationData$ | async) ? (locationData$ | async)?.weather?.coord : {lat: defaults.lat, lon: defaults.lon}"></app-map>
-      <app-input-form
-        [inputForm]="inputForm"
-        (onShowData)="onSelectedLocation($event)"
-      ></app-input-form>
+
+  <div ngbAccordion>
+    <div ngbAccordionItem>
+      <h2 ngbAccordionHeader>
+        <button ngbAccordionButton>First</button>
+      </h2>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody class="p-0">
+          <ng-template>
+            <div class="shadow-lg rounded-lg">
+              <app-map [location]="(locationData$ | async) ? (locationData$ | async)?.weather?.coord : {lat: defaults.lat, lon: defaults.lon}"></app-map>
+              <app-input-form
+                [inputForm]="inputForm"
+                (onShowData)="onSelectedLocation($event)"
+              ></app-input-form>
+            </div>
+          </ng-template>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
