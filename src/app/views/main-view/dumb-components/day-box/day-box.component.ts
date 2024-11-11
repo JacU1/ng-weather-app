@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { initTE, Ripple } from 'tw-elements';
 
 @Component({
   selector: 'app-day-box',
@@ -9,9 +8,6 @@ import { initTE, Ripple } from 'tw-elements';
   styleUrl: './day-box.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DayBoxComponent implements OnInit {
-  ngOnInit(): void {
-    initTE({ Ripple });
-  }
+export class DayBoxComponent {
 }
 

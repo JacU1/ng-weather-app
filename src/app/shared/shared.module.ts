@@ -10,7 +10,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { KelvinToCelsiusPipe } from './pipes/kelvin-to-celsius.pipe';
 
 
-
 @NgModule({
   declarations: [NavbarComponent, FooterComponent, SliderComponent],
   imports: [
