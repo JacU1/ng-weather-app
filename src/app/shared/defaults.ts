@@ -6,6 +6,6 @@ interface IDefaults {
 
 export const defaults: IDefaults = {
     lat: 51,
-    lon: 0,
-    center: [51,0]
+    lon: 51,
+    center: [-0.118092,51.509865]
 }

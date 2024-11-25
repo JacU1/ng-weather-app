@@ -1,4 +1,8 @@
 {
+    "GOOD_MORNING": "Good morning",
+    "FIND_YOUR_LOCATION": "Find your location",
+    "TODAY":"Today",
+
     "WEATHER_INFO": {
         "MY_LOCATION": "My location",
         "CLOUDS": "Clouds",

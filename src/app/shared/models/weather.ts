@@ -15,8 +15,8 @@ export interface WeatherData {
   }
   
   export interface Coord {
-    lon: number
     lat: number
+    lon: number
   }
   
   export interface WeatherInfo {

@@ -1,26 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
 import { WeatherData } from '../models/weather';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable()
 
 export class WeatherDataService {
-  constructor(private readonly _http: HttpClient) { }
+  _http = inject(HttpClient);
 
-  public getCurrentWeather(lat: number, lon: number): Observable<WeatherData> {
+  public getCurrentWeather(lon: number, lat: number): Observable<WeatherData> {
     const url = `${environment.weatherApiUrl}/weather?lat=${lat}&lon=${lon}&units=metric&appid=${environment.weatherApiKey}`
-    return this._http.get<any>(url);
+    return this._http.get<WeatherData>(url);
   }
 
-  public getHistoryWeather(lat: string, lon: string, time: string): Observable<any>{
-    const url = `${environment.weatherApiUrl}/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${time}&units=metric&appid=${environment.weatherApiKey}`
-    return this._http.get<any>(url);
-  }
-
-  public getFutureWeather(lat: string, lon: string): Observable<any>{
-    const url = `${environment.weatherApiUrl}/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=metric&appid=${environment.weatherApiKey}`
-    return this._http.get<any>(url);
+  public getFutureWeather(lon: number, lat: number): Observable<WeatherData>{
+    const url = `${environment.weatherApiUrl}/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${environment.weatherApiKey}`
+    return this._http.get<WeatherData>(url);
   }
 }

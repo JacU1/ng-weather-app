@@ -1,15 +1,16 @@
 import { defaults } from './../../shared/defaults';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DayBoxComponent } from './dumb-components/day-box/day-box.component';
+import { Component, inject, signal } from '@angular/core';
 import { InputFormComponent } from './smart-components/input-form/input-form.component';
 import { MapComponent } from './smart-components/map/map.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { Observable, Subscription, map, mergeMap, switchMap, take, tap } from 'rxjs';
+import {
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { WeatherDataService } from 'src/app/shared/services/weather-data.service';
-import { FutureWaetherComponent } from './dumb-components/future-waether/future-waether.component';
-import { TodayWeatherComponent } from './dumb-components/today-weather/today-weather.component';
 import { LocationService } from 'src/app/shared/services/location.service';
 import { Coord } from 'src/app/shared/models/weather';
 import { LocationWeather } from 'src/app/shared/models/location';
@@ -19,36 +20,30 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
   selector: 'app-main-view',
   standalone: true,
   imports: [
-    DayBoxComponent,
     InputFormComponent,
     MapComponent,
     CommonModule,
     SharedModule,
-    FutureWaetherComponent,
-    TodayWeatherComponent,
-    NgbAccordionModule
-],
+    NgbAccordionModule,
+  ],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.scss',
 })
-export class MainViewComponent implements OnDestroy {
-  public inputForm: FormGroup;
-  public newMapLocation!: Coord;
-  public locationData$?: Observable<LocationWeather>;
-  public defaults = defaults;
+export class MainViewComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly weatherService = inject(WeatherDataService);
+  private readonly locationService = inject(LocationService);
 
-  private sub: Subscription = new Subscription();
+  public inputForm: FormGroup = this.fb.group({
+    time: new FormControl(''),
+    date: new FormControl(''),
+  });
 
-  constructor(
-    private readonly _fb: FormBuilder,
-    private readonly weatherService: WeatherDataService,
-    private readonly locationService: LocationService
-  ) {
-    this.inputForm = this._fb.group({
-      time: new FormControl(''),
-      date: new FormControl(''),
-    });
+  newMapLocation!: Coord;
+  locationData = signal<LocationWeather | null>(null);
+  defaults = defaults;
 
+  constructor() {
     this.getCurrentLocationData();
   }
 
@@ -56,8 +51,8 @@ export class MainViewComponent implements OnDestroy {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.setLocationData(
-          position.coords.latitude,
-          position.coords.longitude
+          position.coords.longitude,
+          position.coords.latitude
         );
       }, this.showError);
     } else {
@@ -65,19 +60,22 @@ export class MainViewComponent implements OnDestroy {
     }
   }
 
-  setLocationData(lat: number, lon: number): void {
-    this.locationData$ = this.locationService.getLocationReverse(lat, lon).pipe(
-      take(1),
-      mergeMap((location) => {
-        return this.weatherService
-          .getCurrentWeather(location.query.lat, location.query.lon)
-          .pipe(
-            map((weather) => {
-              return {location, weather}
-            }),
-          );
-      })
-    );
+  setLocationData(lon: number, lat: number): void {
+    this.locationService
+      .getLocationReverse(lon, lat)
+      .pipe(
+        take(1),
+        switchMap((location) => {
+          return this.weatherService
+            .getCurrentWeather(location.query.lon, location.query.lat)
+            .pipe(
+              tap((weather) => {
+                this.locationData.set({ weather, location });
+              })
+            );
+        })
+      )
+      .subscribe();
   }
 
   showError(error: any): void {
@@ -97,11 +95,7 @@ export class MainViewComponent implements OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
   onSelectedLocation(value: Coord): void {
-    this.setLocationData(value.lat, value.lon);
+    this.setLocationData(value.lon, value.lat);
   }
 }

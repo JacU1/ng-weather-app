@@ -1,5 +1,12 @@
 import { defaults } from './../../../../shared/defaults';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  input,
+  Input,
+  signal,
+} from '@angular/core';
 import { View } from 'ol';
 import Map from 'ol/Map';
 import TileLayer from 'ol/layer/Tile';
@@ -15,18 +22,20 @@ import { Coord } from 'src/app/shared/models/weather';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent {
-  @Input() set location(value: Coord | undefined) {
-    this.mapchangehandler(value?.lat, value?.lon);
+  location = input<Coord>();
+
+  map?: Map;
+  defaults = defaults;
+
+  constructor() {
+    effect(() => {
+      if(this.location()) this.mapchangehandler(this.location()?.lon, this.location()?.lat)
+    });
   }
-  public map?: Map;
-  public defaults = defaults;
 
-  constructor() {}
-
-  initmap(lat?: number, lon?: number): void {
+  initmap(lon?: number, lat?: number): void {
     useGeographic();
-    const center = lat && lon ? [lon, lat] : defaults.center;
-
+    const center = lon && lat ? [lon, lat] : defaults.center;
     this.map = new Map({
       view: new View({
         center: center,
