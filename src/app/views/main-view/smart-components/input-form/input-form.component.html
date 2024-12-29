@@ -1,39 +1,32 @@
-<div class="form flex p-2 justify-between flex-col lg:flex-row">
-  <div class="flex flex-col m-1">
-    <label
-      for="location"
-      class="block text-sm font-medium leading-6 text-gray-900"
-      >{{ "inputForm.location" | translate }}</label
+<div class="d-flex flex-column p-2">
+  <div class="flex flex-column m-1">
+    <label for="location" class="typo-text-secondary">{{
+      "inputForm.location" | translate
+    }}</label>
+    <ng-select
+      #select
+      [(ngModel)]="selectedLocation"
+      placeholder="{{ 'TYPE_SELECTED_CITY' | translate }}"
+      [virtualScroll]="true"
+      (search)="onSelectSearch($event)"
+      (change)="select.blur()"
+      (clear)="onClearClick()"
+      (scrollToEnd)="onScrollSearch($event)"
     >
-    <div
-      class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
-    >
-      <ng-select
-        #select
-        [(ngModel)]="selectedLocation"
-        placeholder="Type searched city"
-        [virtualScroll]="true"
-        (search)="onSelectSearch($event)"
-        (change)="select.blur()"
-        (clear)="onClearClick()"
-        (scrollToEnd)="onScrollSearch($event)"
-        class="peer text-neutral-200 block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear peer-focus:text-primary motion-reduce:transition-none dark:peer-focus:text-primary"
-      >
-        <ng-container *ngIf="searchedResults$ | async as searchedResults">
-          <ng-option
-            *ngFor="let location of searchedResults"
-            [value]="location.properties"
-          >
-            <div class="flex justify-between items-center">
-              <p class="text-sm">{{ location.properties.city }}</p>
-              <p class="text-xs opacity-25">
-                {{ location.properties.country }}
-              </p>
-            </div>
-          </ng-option>
-        </ng-container>
-      </ng-select>
-    </div>
+      <ng-container *ngIf="searchedResults$ | async as searchedResults">
+        <ng-option
+          *ngFor="let location of searchedResults"
+          [value]="location.properties"
+        >
+          <div class="flex justify-between items-center">
+            <p class="text-sm">{{ location.properties.city }}</p>
+            <p class="text-xs opacity-25">
+              {{ location.properties.country }}
+            </p>
+          </div>
+        </ng-option>
+      </ng-container>
+    </ng-select>
   </div>
 
   <ng-container [formGroup]="inputForm">
@@ -92,7 +85,7 @@
             class="bg-indigo-600 p-2 text-white rounded-lg m-2 w-1/2"
             (click)="clearInputs()"
           >
-          {{ "inputForm.clearAll" | translate }}
+            {{ "inputForm.clearAll" | translate }}
           </button>
         </div>
       </div>

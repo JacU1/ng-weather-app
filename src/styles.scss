@@ -1,21 +1,80 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 /* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+@import "bootstrap/scss/bootstrap";
 
-
-html, body {
+html,
+body {
   font-family: "IBM Plex Sans", sans-serif;
 }
 
 .main {
-  background-color: #FCFCFB;
+  background-color: #fcfcfb;
 }
 
 .typo-text-primary {
-  color: #0F2536;
+  color: #0f2536;
 }
 
 .typo-text-secondary {
-  color: #86929B;
+  color: #86929b;
 }
+
+.btn {
+  flex: 1 1 auto;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 25px !important;
+}
+
+// .btn:hover {
+//   background-position: right center; /* change the direction of the change here */
+// }
+
+// .btn-primary {
+//   background-image: linear-gradient(
+//     to right,
+//     #3a36ff 0%,
+//     #a6c1ee 51%,
+//     #41b7fa 100%
+//   );
+// }
+
+.btn-primary {
+  background-image: linear-gradient(
+    #3a36ff 0%,
+    #41b7fa 100%
+  );
+}
+
+.fw-100 {
+  font-weight: 100;
+}
+
+.fw-200 {
+  font-weight: 200;
+}
+
+.fw-300 {
+  font-weight: 300;
+}
+
+.fw-400 {
+  font-weight: 400;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+.fw-700 {
+  font-weight: 700;
+}
+
