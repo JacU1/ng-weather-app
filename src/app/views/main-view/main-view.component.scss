@@ -1,8 +1,17 @@
-.map-button {
-    border-radius: 30px;
+.header {
+  font-size: 40px;
+  font-weight: 500;
 }
 
-.header {
-    font-size: 40px;
-    font-weight: 500;
+.accordion-button {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.accordion-button:focus {
+  box-shadow: none !important;
+}
+
+.accordion-button::after {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round'><path d='M2 5L8 11L14 5'/></svg>") !important;
 }
